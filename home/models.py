@@ -4,20 +4,20 @@ from django.urls import reverse
 from news.settings import AUTH_USER_MODEL
 
 
-class Categpry(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=50)
     img = models.ImageField(upload_to='static/img/category-img/')
     
 
     class Meta:
-        verbose_name = "Categpry"
-        verbose_name_plural = "Categprys"
+        verbose_name = "Category"
+        verbose_name_plural = "Categorys"
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("Categpry_detail", kwargs={"pk": self.pk})
+        return reverse("Category_detail", kwargs={"pk": self.pk})
 
 
 class Blog(models.Model):
@@ -26,7 +26,7 @@ class Blog(models.Model):
     image = models.ImageField(upload_to='static/img/blog/%Y/%m/%d/', height_field=None, width_field=None, max_length=None)
     reporter = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
-    categorie = models.ForeignKey(Categpry, on_delete=models.CASCADE)
+    categorie = models.ForeignKey(Category, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
     viewer = models.IntegerField(default=0)
     
