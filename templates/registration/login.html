@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {% if page == 'register' %}
+    | Register
+    {% else %}
+    | Login
+    {% endif %}
+{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card border-danger text-center text-capitalize">
+                <div class="card-header bg-danger">
+                    <h1>Already login</h1>
+                </div>
+                <div class="card-content p-3">
+                    <h2>you are already login as {{request.user}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card border-danger text-center">
+                <div class="card-header bg-danger">
+                    {% if page == 'register' %}
+                    <h1>Register</h1>
+                    {% else %}
+                    <h1>Login</h1>
+                    {% endif %}
+                </div>
+                <div class="card-content">
+                    <form action="" method="post" class="p-5">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        {% if page == 'register' %}
+                        <input type="submit" value="Register" class="btn btn-outline-success mt-4">
+                        {% else %}
+                        <input type="submit" value="Login" class="btn btn-outline-success mt-4">
+                        {% endif %}
+                    </form>
+                </div>
+                <div class="card-footer border-danger text-center text-capitalize p-3">
+                    {% if page == 'register' %}
+                    <p>Have An account? Login <a href="{% url 'login' %}">here</a></p>
+                    {% else %}
+                    <p>don't Have An account? register <a href="{% url 'register' %}">here</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
