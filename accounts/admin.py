@@ -1,11 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 from .models import User
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 
-class UserAdmin(admin.ModelAdmin):
-    add_form = UserAdminCreationForm
+class MyUserAdmin(UserAdmin):
     form = UserAdminChangeForm
+    add_form = UserAdminCreationForm
     list_display = [
         'username',
         'email',
@@ -61,11 +62,12 @@ class UserAdmin(admin.ModelAdmin):
                 'is_staff',
                 'is_reporter',
                 'is_active',
-
                 )
             }
         )
     )
+    filter_horizontal = ()
+    ordering = ('id',)
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(User, MyUserAdmin)

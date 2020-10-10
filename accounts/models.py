@@ -66,6 +66,8 @@ class MyUserManager(BaseUserManager):
             is_active=True,
         )
         return user
+
+
     def create_reporter(self, username, email, full_name, phone, address, avatar, gender, date_of_birth, password=None):
         user = self.create_user(
             username=username,
@@ -125,13 +127,13 @@ class User(AbstractBaseUser):
             return False
 
     def super_check(self):
-        if self.is_staff == True:
+        if self.is_superuser == True:
             return True
         else:
             return False
 
     def reporter_check(self):
-        if self.is_staff == True:
+        if self.is_reporter == True:
             return True
         else:
             return False
