@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+| Post - {{data.title}}
+{% endblock title %}
+
+{% block content %}
+
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+    <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}

@@ -2,8 +2,15 @@
 
 {% load static %}
 
+{% block title %}
+| Categort List - {{ category_name.name }}
+{% endblock title %}
+
 {% block content %}
 <div class="container my-5">
+    <div class="">
+        <h4>Post Result: {{post}} </h4>
+    </div>
     <div class="row justify-content-center">
         {% for i in data %}
         <div class="col-lg-5">
@@ -20,7 +27,6 @@
         {% endfor %}
     </div>
 </div>
-
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
 <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>

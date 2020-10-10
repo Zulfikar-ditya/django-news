@@ -37,11 +37,12 @@ def category_list(request):
 def post_filter(request, id):
     getCategory = Category.objects.get(pk=id)
     getData = Blog.objects.filter(status=True, categorie=getCategory)
-    postCount = count(getData)
+    postCount = len(getData)
     paginator = Paginator(getData, 20)
     pageNum = request.GET.get('page')
     dataresult = paginator.get_page(pageNum)
     return render(request, 'home/post-list-filter.html', {
+        'category_name': getCategory,
         'data': dataresult,
         'post': postCount,
     })
