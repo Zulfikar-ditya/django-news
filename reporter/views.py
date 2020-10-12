@@ -13,4 +13,4 @@ def reporter(request):
     if request.user.is_authenticated and request.user.is_reporter == True:
         return render(request, 'reporter/index.html')
     else:
-        return redirect('login')
+        return redirect('home:dont-have-access')

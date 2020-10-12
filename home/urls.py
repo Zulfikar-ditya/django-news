@@ -11,4 +11,5 @@ urlpatterns = [
     path('post-by-category/<int:id>/', views.post_filter, name='post-filter'),
 
     path('404/', views.page_not_found, name='404'),
+    path('dont-have-access/', views.dont_have_access, name='dont-have-access'),
 ]

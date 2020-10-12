@@ -62,3 +62,7 @@ def post_filter(request, id):
 
 def page_not_found(request):
     return render(request, 'error/404.html')
+
+
+def dont_have_access(request):
+    return render(request, 'home/dont-have-access.html')
