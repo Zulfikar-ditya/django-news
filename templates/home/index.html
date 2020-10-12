@@ -4,15 +4,19 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="row justify-content-center">
+    <div class="row justify-content-around">
         {% for i in data %}
-        <div class="col-lg-5">
+        <div class="col-sm-4">
             <div class="card mb-3 mx-auto">
-                <img src="{{i.image}}" alt="" class="card-img-top">
-                <div class="card-body">
-                    <h3 class="card-title">{{i.title}}</h3>
-                </div>
-                <div class="card-footer">
+                <a href="post/{{i.id}}/">
+                    <img src="{{i.image}}" alt="{{i.title}}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase text-dark text-break text-justify">
+                            {{ i.title|truncatechars:75 }}
+                        </h5>
+                    </div>
+                </a>
+                <div class="card-footer text-center bg-white">
                     <p class="text-muted">{{i.date_add}}</p>
                 </div>
             </div>
@@ -20,7 +24,34 @@
         {% endfor %}
     </div>
 </div>
-
+</div>
+<div class="container my-3">
+    <div class="row">
+        <div class="col text-center">
+            <span>Page {{data.number}} of {{data.paginator.num_pages}}</span>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination d-flex flex-warp justify-content-center">
+                    {% if data.has_previous %}
+                    <li class="page-item">
+                        <a href="?=page=1" class="page-link">&laquo; first</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?=page={{data.previous_page_number}}" class="page-link">previous</a>
+                    </li>
+                    {% endif %}
+                    {% if data.has_next %}
+                    <li class="page-item">
+                        <a href="?=page={{data.next_page_number}}" class="page-link">next</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?=page=1" class="page-link">last &laquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
 <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>

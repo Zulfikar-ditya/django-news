@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from .forms import RegisterForm
 
@@ -9,9 +11,9 @@ def register(request):
     else:
         if request.method == 'POST':
             form = RegisterForm(request.POST)
-            if form.is_valid:
+            if form.is_valid():
                 form.save()
-                redirect('login')
+                return HttpResponseRedirect(reverse('login'))
         else:
             form = RegisterForm()
     return render(request, 'registration/login.html', {

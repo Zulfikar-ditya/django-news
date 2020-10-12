@@ -3,10 +3,17 @@ from django.urls import reverse
 
 from news.settings import AUTH_USER_MODEL
 
+import datetime
+
+today = datetime.date.today()
+
 
 class Category(models.Model):
+    date_add = models.DateField(auto_now_add=True)
     name = models.CharField(max_length=50)
     img = models.ImageField(upload_to='static/img/category-img/')
+    new = models.BooleanField(default=True)
+    trending = models.BooleanField(default=False)
     
 
     class Meta:
@@ -19,9 +26,29 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse("Category_detail", kwargs={"pk": self.pk})
 
+    def not_new_anymore(self):
+        self.new = False
+        self.save()
+
+    def not_trending_anymore(self):
+        self.trending = False
+        self.save()
+
+    def auto_not_new(self):
+        if self.date_add < today:
+            self.new = False
+            self.save()
+        else: pass
+
+    def auto_not_trending(self):
+        if self.date_add < today:
+            self.trending = False
+            self.save()
+        else: pass
+
 
 class Blog(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
     date_add = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='static/img/blog/%Y/%m/%d/', height_field=None, width_field=None, max_length=None)
     reporter = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)

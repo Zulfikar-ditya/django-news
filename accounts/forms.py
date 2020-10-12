@@ -12,6 +12,10 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
+# class PasswordInput(forms.PasswordInput):
+    # input_type = 'password'
+
+
 class UserAdminCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
@@ -65,15 +69,14 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
+            'username',
+            'password1',
+            'password2',
             'full_name',
-            'phone',
             'address',
             'email',
-            'avatar',
             'gender',
             'date_of_birth',
-            'username',
-            'password',
         )
         widgets = {
             'date_of_birth': DateInput,

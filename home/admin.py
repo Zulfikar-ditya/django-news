@@ -31,6 +31,11 @@ class BlogAdmin(admin.ModelAdmin):
                 )
             }
         ),
+        ('content', {'fields': (
+                'content',
+                ),
+            }
+        ),
         ('status', {'fields': (
             'status',
                 )
@@ -46,12 +51,20 @@ class BlogAdmin(admin.ModelAdmin):
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = [
+        'date_add',
         'name',
         'img',
+        'new',
+        'trending',
     ]
     search_fields = [
-        'name'
+        'name',
     ]
+    list_filter = [
+        'new',
+        'trending',
+    ]
+    ordering = ('new', 'trending', 'date_add')
 
 
 admin.site.register(Blog, BlogAdmin)
