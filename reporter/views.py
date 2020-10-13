@@ -14,3 +14,15 @@ def reporter(request):
         return render(request, 'reporter/index.html')
     else:
         return redirect('home:dont-have-access')
+
+def my_post(request):
+    if request.user.is_authenticated and request.user.is_reporter == True:
+        getData = Blog.objects.filter(reporter=request.user.id)
+        paginator = Paginator(getData, 20)
+        pageNum = request.GET.get('page')
+        data = paginator.get_page(pageNum)
+        return render(request, 'reporter/mypost.html', {
+            'data': data,
+        })
+    else:
+        return redirect('home:dont-have-access')
