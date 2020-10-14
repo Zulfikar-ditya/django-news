@@ -33,7 +33,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-5">
             <div class="card border-info text-center">
-                <div class="card-header bg-info">
+                <div class="card-header bg-info text-white">
                     {% if page == 'register' %}
                     <h1>Register</h1>
                     {% else %}
@@ -55,7 +55,7 @@
                     {% if page == 'register' %}
                     <p>Have An account? Login <a href="{% url 'login' %}">here</a></p>
                     {% else %}
-                    <p>don't Have An account? register <a href="{% url 'register' %}">here</a></p>
+                    <p>don't Have An account? register <a href="{% url 'account:register' %}">here</a></p>
                     {% endif %}
                 </div>
             </div>

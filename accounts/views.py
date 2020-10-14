@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from .models import User
 from .forms import RegisterForm
 
 def register(request):
@@ -21,3 +22,13 @@ def register(request):
         'form': form
     })
 
+
+def my_account(request):
+    if request.user.is_authenticated:
+        getUser = request.user.id
+        user = User.objects.get(pk=getUser)
+        return render(request, 'account/index.html', {
+            'user': user,
+        })
+    else:
+        return redirect('home:login')

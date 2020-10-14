@@ -14,8 +14,8 @@
             <div class="card mb-3 mx-auto">
                 <a href="../post-by-category/{{i.id}}/">
                     <img src="../{{ i.img }}" alt="" class="card-img-top">
+                    {% if i.new == True %}
                     <div class="card-img-overlay p-1">
-                        {% if i.new == True %}
                         <div class="btn btn-danger">
                             <span style="height: 20px;">
                                 <svg height="1.2em" width="1.2em" aria-hidden="true" focusable="false" data-prefix="fas"

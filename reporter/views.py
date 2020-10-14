@@ -111,7 +111,6 @@ def delete_post_confirm(request, id):
         return redirect('home:dont-have-access')
 
 
-
 def delete_post(request, id):
     if request.user.is_authenticated and request.user.is_reporter == True and request.user.is_active == True and request.user.is_staff == False:
         try:
