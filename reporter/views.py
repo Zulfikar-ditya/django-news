@@ -18,7 +18,7 @@ def reporter(request):
 
 def my_post(request):
     if request.user.is_authenticated and request.user.is_reporter == True:
-        getData = Blog.objects.filter(reporter=request.user.id)
+        getData = Blog.objects.filter(reporter=request.user.id, status=True)
         paginator = Paginator(getData, 20)
         pageNum = request.GET.get('page')
         data = paginator.get_page(pageNum)
@@ -74,7 +74,7 @@ def edit_post(request, id):
     if request.user.is_authenticated and request.user.is_reporter == True and request.user.is_active == True and request.user.is_staff == False:
         getCategory = Category.objects.all()
         try:
-            getPost = Blog.objects.get(pk=id, reporter=request.user)
+            getPost = Blog.objects.get(pk=id, reporter=request.user, status=True)
         except:
             return redirect('home:404')
         if request.method == "POST":
@@ -94,3 +94,32 @@ def edit_post(request, id):
             'data': getPost,
             'category': getCategory,
         })
+    else:
+        return redirect('home:dont-have-access')
+
+    
+def delete_post_confirm(request, id):
+    if request.user.is_authenticated and request.user.is_reporter == True and request.user.is_active == True and request.user.is_staff == False:
+        try:
+            getPost = Blog.objects.get(pk=id, reporter=request.user, status=True)
+        except:
+            return redirect('home:404')
+        return render(request, 'reporter/delete-confirm.html', {
+            'data': getPost,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+
+
+def delete_post(request, id):
+    if request.user.is_authenticated and request.user.is_reporter == True and request.user.is_active == True and request.user.is_staff == False:
+        try:
+            getPost = Blog.objects.get(pk=id, reporter=request.user, status=True)
+        except:
+            return redirect('home:404')
+        getPost.status = False
+        getPost.save()
+        return redirect('reporter:my-post')
+    else:
+        return redirect('home:dont-have-access')

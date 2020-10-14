@@ -1,0 +1,18 @@
+{% extends 'base-reporter.html' %}
+
+{% load static %}
+
+{% block title %}
+| Delete - {{data.title}}
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5 text-capitalize">
+    <h2>Title: {{data.title}}</h2>
+    <a href="../../delete-post/{{data.id}}/" class="btn btn-outline-danger">Delete</a>
+    <a href="{% url 'reporter:my-post' %}" class="btn btn-outline-info">My Post</a>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
