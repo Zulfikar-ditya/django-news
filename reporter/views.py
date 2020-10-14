@@ -51,7 +51,6 @@ def add_post(request, id):
         form = BlogForm()
         if request.method == 'POST':
             form = BlogForm(request.POST, request.FILES)
-            print(form.is_valid())
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.reporter = request.user
@@ -69,3 +68,29 @@ def add_post(request, id):
         })
     else:
         return redirect('home:dont-have-access')
+
+
+def edit_post(request, id):
+    if request.user.is_authenticated and request.user.is_reporter == True and request.user.is_active == True and request.user.is_staff == False:
+        getCategory = Category.objects.all()
+        try:
+            getPost = Blog.objects.get(pk=id, reporter=request.user)
+        except:
+            return redirect('home:404')
+        if request.method == "POST":
+            get_title = request.POST['title']
+            get_category = request.POST['category']
+            get_Content = request.POST['content']
+            try:
+                getImage = request.FILES['image']
+                getPost.image = getImage
+            except: pass
+            getPost.title = get_title
+            getPost.categorie = Category.objects.get(name=get_category)
+            getPost.content = get_Content
+            getPost.save()
+            return redirect('reporter:my-post')
+        return render(request, 'reporter/edit.html', {
+            'data': getPost,
+            'category': getCategory,
+        })

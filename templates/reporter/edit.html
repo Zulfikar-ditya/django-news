@@ -1,0 +1,62 @@
+{% extends 'base-reporter.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+| Edit Post - {{data.title}}
+{% endblock title %}
+
+{% block content %}
+<div class="container my-3 text-capitalize">
+    <h2>Post: {{data.title}}</h2>
+</div>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-info">
+                <div class="card-header bg-info text-center">
+                    <h1>Edit Post</h1>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post" class="p-4 text-capitalize" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group my-3">
+                            <label for="">Title<span class="text-danger">*</span></label>
+                            <input type="text" name="title" id="" maxlength="100" class="w-100">
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="">Image<span class="text-danger">*</span></label><br>
+                            <a href="../../../{{data.image}}">Previous Image</a><br>
+                            <input type="file" name="image" accept="image/*">
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="">category<span class="text-danger">*</span></label>
+                            <select name="category" id="" required>
+                                <option value="">----------</option>
+                                {% for i in category %}
+                                <option value="{{i.name}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Content <span class="text-danger">*</span></label>
+                            <textarea name="content" id="" cols="30" rows="10" class="w-100">
+                                {{data.content}}
+                            </textarea>
+                        </div>
+                        <div class="form-group d-flex justify-content-center mt-5">
+                            <input type="submit" value="Edit" class="btn btn-outline-info mr-5">
+                            <a href="" class="btn btn-outline-danger">Delete</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+

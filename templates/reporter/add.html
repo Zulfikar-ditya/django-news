@@ -23,12 +23,12 @@
                     <form action="" method="post" class="p-5" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form|crispy}}
-                    </div>
-                            <div class="card-footer border-info bg-white d-flex justify-content-center p-3">
-                                <input type="submit" value="Add" class="btn btn-outline-info" name="add">
-                                <input type="submit" value="Add And Add Another" class="btn btn-outline-success ml-4">
-                            </div>
-                        </form>
+                </div>
+                <div class="card-footer border-info bg-white d-flex justify-content-center p-3">
+                    <input type="submit" value="Add" class="btn btn-outline-info" name="add">
+                    <input type="submit" value="Add And Add Another" class="btn btn-outline-success ml-4">
+                </div>
+                </form>
             </div>
         </div>
     </div>

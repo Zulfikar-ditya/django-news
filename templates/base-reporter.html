@@ -25,6 +25,7 @@
                         <a href="" class="nav-link dropdown-toggle" aria-labelledby="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reporter</a>
                         <div class="dropdown-menu" aria-label="navbarDropdown">
+                            <a href="{% url 'reporter:reporter' %}" class="dropdown-item">Dashboard</a>
                             <a href="{% url 'reporter:my-post' %}" class="dropdown-item">My Post</a>
                             <a href="{% url 'reporter:choose-category' %}" class="dropdown-item">Add Post</a>
                         </div>
