@@ -4,9 +4,9 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 
 
-from home.models import Blog
+from home.models import Blog, Category
 from accounts.models import User
-# from .form import 
+from .forms import BlogForm
 
 
 def reporter(request):
@@ -14,6 +14,7 @@ def reporter(request):
         return render(request, 'reporter/index.html')
     else:
         return redirect('home:dont-have-access')
+
 
 def my_post(request):
     if request.user.is_authenticated and request.user.is_reporter == True:
@@ -23,6 +24,48 @@ def my_post(request):
         data = paginator.get_page(pageNum)
         return render(request, 'reporter/mypost.html', {
             'data': data,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+
+def choose_category(request):
+    if request.user.is_authenticated and request.user.is_reporter == True and request.user.is_active == True and request.user.is_staff == False:
+        getCategori = Category.objects.all().order_by('-date_add')
+        paginator = Paginator(getCategori, 50)
+        pageNum = request.GET.get('page')
+        data = paginator.get_page(pageNum)
+        return render(request, 'reporter/choose-category.html', {
+            'data': data,
+        })
+    else:
+        return redirect('home:dont-have-access')    
+
+
+def add_post(request, id):
+    if request.user.is_authenticated and request.user.is_reporter == True and request.user.is_active == True and request.user.is_staff == False:
+        try: 
+            getCategory = Category.objects.get(pk=id)
+        except (KeyError, Category.DoesNotExist):
+            return redirect('home:404')
+        form = BlogForm()
+        if request.method == 'POST':
+            form = BlogForm(request.POST, request.FILES)
+            print(form.is_valid())
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.reporter = request.user
+                instance.categorie = getCategory
+                form.save()
+                if 'add' in request.POST:
+                    return redirect('reporter:my-post')
+                else:
+                    return HttpResponseRedirect(f'../{getCategory.id}/')
+        else:
+            form = BlogForm()
+        return render(request, 'reporter/add.html', {
+            'form': form,
+            'data': getCategory,
         })
     else:
         return redirect('home:dont-have-access')
