@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+| Accont - Edit - {{user.username}}
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white text-center">
+                    <h1>Edit</h1>
+                </div>
+                <div class="card-content border-info">
+                    <form action="" method="post" class="p-5" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Email <span class="text-danger">*</span></label>
+                            <input type="text" name="email" id="" class="w-100" value="{{user.email}}" required>
+                        </div><div class="form-group">
+                            <label for="">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" name="full_name" id="" class="w-100" value="{{user.full_name}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Phone <span class="text-danger">*</span></label>
+                            <input type="number" name="phone" id="" class="w-100" value="{{user.username}}" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Address <span class="text-danger">*</span></label>
+                            <textarea name="address" id="" cols="30" rows="10" class="w-100">
+                                {{user.address}}
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Profile <span class="text-danger">*</span></label>
+                            <input type="file" name="avatar" id="" class="w-100"><br>
+                            <a href="../../{{user.avatar}}">Previous</a>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Gender <span class="text-danger">*</span></label><br>
+                            <select name="gender" id="">
+                                <option value="True">Male</option>
+                                <option value="False">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Date of Birth <span class="text-danger">*</span></label>
+                            <input type="date" name="date_of_birth" id="" class="w-100" value="{{user.date_of_birth}}" required>
+                        </div>
+                        <input type="submit" value="Save" class="btn btn-outline-info align-self-center">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+

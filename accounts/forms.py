@@ -73,12 +73,11 @@ class RegisterForm(UserCreationForm):
             'password1',
             'password2',
             'full_name',
-            'address',
+            'phone',
             'email',
             'gender',
             'date_of_birth',
         )
         widgets = {
             'date_of_birth': DateInput,
-            'address': TextArea,
         }
