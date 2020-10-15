@@ -5,6 +5,7 @@ from django.urls import reverse
 from .models import User
 from .forms import RegisterForm
 
+
 def register(request):
     page = 'register'
     if request.user.is_authenticated:
@@ -38,8 +39,6 @@ def edit_account(request):
     if request.user.is_authenticated:
         user = request.user.id
         getUser = User.objects.get(pk=user)
-        phone = 0
-        address = ''
         if request.method == 'POST':
             try:
                 getUser.avatar = request.FILES['avatar']

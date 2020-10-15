@@ -24,8 +24,13 @@
 
             <div class="collapse navbar-collapse mr-5" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-lg-auto text-center">
+                    {% if request.user.is_reporter == True or request.user.is_superuser == True or request.user.is_staff == True %}
                     <li class="nav-item active">
-                        <a class="nav-link text-capitalize" href="{% url 'home:category-list' %}">Category</a>
+                        <a class="nav-link text-capitalize" href="{% url 'reporter:reporter' %}">Reporter</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item active">
+                        <a class="nav-link text-capitalize" href="{% url 'home:category-list' %}">Categorie</a>
                     </li>
                     <li class="nav-item active text-dark dropdown">
                         <a href="" class="nav-link" aria-labelledby="navbarDropdown" role="button"
