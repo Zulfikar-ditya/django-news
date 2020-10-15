@@ -1,0 +1,46 @@
+{% extends 'base-staff.html' %}
+
+{% load static %}
+
+{% block title %}
+| List Reporter
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="col-lg-12">
+        <div class="table table-hover table-responsive">
+            <table class="table">
+                <thead class="bg-info text-uppercase text-white">
+                    <th scope="col">ID</th>
+                    <th scope="col">username</th>
+                    <th scope="col">email</th>
+                    <th scope="col">full name</th>
+                    <th scope="col">avatar</th>
+                    <th scope="col">gender</th>
+                    <th scope="col">date of birth</th>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <th scope="row">{{i.id}}</th>
+                    <td><a href="">{{i.username}}</a></td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.full_name}}</td>
+                    <td><a href="../../{{i.avatar}}" target="_blank">Link</a></td>
+                    {% if i.gender == True %}
+                    <td>Male</td>
+                    {% else %}
+                    <td>Female</td>
+                    {% endif %}
+                    <td>{{i.date_of_birth}}</td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+

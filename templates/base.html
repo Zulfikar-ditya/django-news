@@ -29,8 +29,13 @@
                         <a class="nav-link text-capitalize" href="{% url 'reporter:reporter' %}">Reporter</a>
                     </li>
                     {% endif %}
+                    {% if request.user.is_superuser == True or request.user.is_staff == True %}
                     <li class="nav-item active">
-                        <a class="nav-link text-capitalize" href="{% url 'home:category-list' %}">Categorie</a>
+                        <a class="nav-link text-capitalize" href="{% url 'staff:staff' %}">Staff</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item active">
+                        <a class="nav-link text-capitalize" href="{% url 'home:category-list' %}">Category</a>
                     </li>
                     <li class="nav-item active text-dark dropdown">
                         <a href="" class="nav-link" aria-labelledby="navbarDropdown" role="button"
