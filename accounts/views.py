@@ -31,4 +31,15 @@ def my_account(request):
             'user': user,
         })
     else:
-        return redirect('home:login')
+        return redirect('login')
+
+
+def edit_account(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        getUser = User.objects.get(pk=user)
+        return render(request, 'account/edit.html', {
+            'user': getUser,
+        })
+    else:
+        return redirect('404')
