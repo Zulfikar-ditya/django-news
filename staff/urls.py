@@ -12,5 +12,7 @@ urlpatterns = [
     path('detail-user/<str:username>', views.detail_user, name='detail-user'),
     path('detail-reporter/<str:username>', views.detail_reporter, name='detail-reporter'),
     path('deactive-confirm/<str:page>/<str:username>/', views.deactive_confirm, name='delete-confirm'),
-    path('deactive/<str:page>/<str:username>/', views.deactive)
+    path('deactive/<str:action>/<str:page>/<str:username>/', views.deactive_reactive, name='reactive-deactive'),
+    path('reactive-confirm/<str:page>/<str:username>/', views.reactive_confirm, name='delete-confirm'),
+    path('reactive/<str:action>/<str:page>/<str:username>/', views.deactive_reactive, name='reactive-deactive'),
 ]

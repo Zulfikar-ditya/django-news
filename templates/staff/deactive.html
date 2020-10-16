@@ -3,20 +3,29 @@
 {% load static %}
 
 {% block title %}
-{% if page == 'user' %}
-- Deactive User -{{data.username}}
+{% if action == 'Deactive' %}
+    {% if page == 'user' %}
+    - Deactive User -{{data.username}}
+    {% else %}
+    - Deactive Reporter -{{data.username}}
+    {% endif %}
 {% else %}
-- Deactive Reporter -{{data.username}}
+{% if page == 'user' %}
+    - Reactive User -{{data.username}}
+    {% else %}
+    - Reactive Reporter -{{data.username}}
+    {% endif %}
 {% endif %}
 {% endblock title %}
 
 {% block content %}
 <div class="container my-5">
     <h1>Username: {{user.username}}</h1>
+    {% if action == 'deactive' %}
     <div class="text-capitalize">
         {% if page == 'user' %}
         <p><i>are you sure want to deactivate user: {{user.username}}</i></p>
-        <a href="../deactive/user/{{user.username}}/" class="btn btn-outline-danger">
+        <a href="../deactive/{{action}}/user/{{user.username}}/" class="btn btn-outline-danger">
             Deactive
         </a>
         <a href="{% url "staff:list-user" %}" class="btn btn-outline-success">Cancel</a>
@@ -28,6 +37,21 @@
         <a href="{% url 'staff:list-reporter' %}" class="btn btn-outline-success">Cancel</a>
         {% endif %}
     </div>
+    {% else %}
+        {% if page == 'user' %}
+        <p><i>are you sure want to reactivate user: {{user.username}}</i></p>
+        <a href="../../../reactive/{{action}}/user/{{user.username}}/" class="btn btn-outline-success">
+            Reactive
+        </a>
+        <a href="{% url "staff:list-user" %}" class="btn btn-outline-danger">Cancel</a>
+        {% else %}
+        <p><i>are you sure want to reactivate reporter: {{user.username}}</i></p>
+        <a href="../../../reactive/{{action}}/reporter/{{user.username}}/" class="btn btn-outline-success">
+            Reactive
+        </a>
+        <a href="{% url 'staff:list-reporter' %}" class="btn btn-outline-danger">Cancel</a>
+        {% endif %}
+    {% endif %}
 </div>
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
 <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>

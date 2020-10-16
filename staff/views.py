@@ -95,7 +95,7 @@ def detail_reporter(request, username):
     return detail(request, username, page='reporter')
 
 
-def deactive(request, username, page):
+def deactive_reactive(request, username, page, action):
     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
         if page == 'user':
             try:
@@ -109,8 +109,14 @@ def deactive(request, username, page):
                 return redirect('home:404')
         else:
             return redirect('home:404')
-        user.is_active = False
-        user.save()
+        if action == 'deactive':
+            user.is_active = False
+            user.save()
+        elif action == 'reactive':
+            user.is_active = True
+            user.save()
+        else:
+            return redirect('home:404')
         if page == 'user':
             return redirect('staff:list-user')
         else:
@@ -121,13 +127,51 @@ def deactive(request, username, page):
 
 def deactive_confirm(request, username, page):
     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+        if page == 'reporter' or page == 'user':
+            pass
+        else:
+            return redirect('home:404')
         try:
             user = User.objects.get(username=username)
         except:
             return redirect('home:404')
+        if user.is_active == False:
+            return redirect('home:404')
+        else: pass
+        if page == 'reporter' and user.is_reporter == False or page == 'user' and user.is_reporter == True:
+            return redirect('home:404')
+        elif page == 'reporter' and user.is_reporter == True:
+            pass
         return render(request, 'staff/deactive.html', {
             'user': user,
             'page': page,
+            'action': 'deactive',
         })
     else:
-        return redirect('home:404')
+        return redirect('home:dont-have-access')
+
+
+def reactive_confirm(request, username, page):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+        if page == 'reporter' or page == 'user':
+            pass
+        else:
+            return redirect('home:404')
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return redirect('home:404')
+        if user.is_active == True:
+            return redirect('home:404')
+        else: pass
+        if page == 'reporter' and user.is_reporter == False or page == 'user' and user.is_reporter == True:
+            return redirect('home:404')
+        elif page == 'reporter' and user.is_reporter == True:
+            pass
+        return render(request, 'staff/deactive.html', {
+            'user': user,
+            'page': page,
+            'action': 'reactive',
+        })
+    else:
+        return redirect('home:dont-have-access')
