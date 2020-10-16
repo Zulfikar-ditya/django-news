@@ -25,7 +25,13 @@
                     {% for i in data %}
                     <tr>
                         <th scope="row">{{i.id}}</th>
-                        <td><a href="">{{i.username}}</a></td>
+                        <td>
+                            {% if page == 'user' %}
+                            <a href="../detail-user/{{i.username}}">{{i.username}}</a>
+                            {% else %}
+                            <a href="../detail-reporter/{{i.username}}">{{i.username}}</a>
+                            {% endif %}
+                        </td>
                         <td>{{i.email}}</td>
                         <td>{{i.full_name}}</td>
                         <td><a href="../../{{i.avatar}}" target="_blank">Link</a></td>

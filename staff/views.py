@@ -63,3 +63,31 @@ def add_reporter(request):
         })
     else:
         return redirect('home:dont-have-access')
+
+
+def detail(request, username, page):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+        if page == 'user':
+            try:
+                user = User.objects.get(username=username, is_reporter=False, is_staff=False, is_superuser=False)
+            except:
+                return redirect('home:404')
+        elif page == 'reporter':
+            try:
+                user = User.objects.get(username=username, is_reporter=True, is_staff=False, is_superuser=False)
+            except:
+                return redirect('home:404')
+        return render(request, 'staff/detail.html', {
+            'user': user,
+            'page': page,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+
+def detail_user(request, username):
+    return detail(request, username, page='user')
+
+
+def detail_reporter(request, username):
+    return detail(request, username, page='reporter')
