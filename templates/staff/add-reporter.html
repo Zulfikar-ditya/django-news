@@ -1,0 +1,36 @@
+{% extends 'base-staff.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+- Add Reporter
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white text-center">
+                    <h1>Add Reporter</h1>
+                </div>
+                <div class="card-content">
+                    <form action="" method="post" class="p-5">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <div class="row justify-content-center mt-2">
+                            <input type="submit" value="Save" name="add" class="btn btn-outline-info mr-5">
+                            <input type="submit" value="Save And Add Another" name="save" class="btn btn-outline-success">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+
