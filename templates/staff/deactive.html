@@ -1,0 +1,36 @@
+{% extends 'base-staff.html' %}
+
+{% load static %}
+
+{% block title %}
+{% if page == 'user' %}
+- Deactive User -{{data.username}}
+{% else %}
+- Deactive Reporter -{{data.username}}
+{% endif %}
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <h1>Username: {{user.username}}</h1>
+    <div class="text-capitalize">
+        {% if page == 'user' %}
+        <p><i>are you sure want to deactivate user: {{user.username}}</i></p>
+        <a href="../deactive/user/{{user.username}}/" class="btn btn-outline-danger">
+            Deactive
+        </a>
+        <a href="{% url "staff:list-user" %}" class="btn btn-outline-success">Cancel</a>
+        {% else %}
+        <p><i>are you sure want to deactivate reporter: {{user.username}}</i></p>
+        <a href="../deactive/reporter/{{user.username}}/" class="btn btn-outline-danger">
+            Deactive
+        </a>
+        <a href="{% url 'staff:list-reporter' %}" class="btn btn-outline-success">Cancel</a>
+        {% endif %}
+    </div>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+

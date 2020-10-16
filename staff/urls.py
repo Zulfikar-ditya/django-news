@@ -11,4 +11,6 @@ urlpatterns = [
     path("add-reporter/", views.add_reporter, name="add-reporter"),
     path('detail-user/<str:username>', views.detail_user, name='detail-user'),
     path('detail-reporter/<str:username>', views.detail_reporter, name='detail-reporter'),
+    path('deactive-confirm/<str:page>/<str:username>/', views.deactive_confirm, name='delete-confirm'),
+    path('deactive/<str:page>/<str:username>/', views.deactive)
 ]
