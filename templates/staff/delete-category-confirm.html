@@ -1,0 +1,26 @@
+{% extends 'base-staff.html' %}
+
+{% load static %}
+
+{% block title %}
+| Catefory - {{data.name}} - Delete
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="text-capitalize">{{data.name}}</h3>
+    <p><i>Are You Sure Want To Delete Category: <b>{{data.name}}</b></i></p>
+    <div class="row justify-content-left">
+        <div class="col-md-1">
+            <a href="../../delete-category/{{data.id}}/" class="btn btn-outline-danger">Delete</a>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'staff:category-list' %}" class="btn btn-outline-success">List Category</a>
+        </div>
+    </div>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+

@@ -3,8 +3,9 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 
 from accounts.models import User
+from home.models import Category
 
-from .forms import AddReporterForm
+from .forms import AddReporterForm, CategoryForm
 
 
 def index(request):
@@ -16,7 +17,7 @@ def index(request):
 
 def list_reporter(request):
     page = 'reporter'
-    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True and request.user.is_active == True:
         if 'search' in request.GET:
             value = request.GET['search']
             reporter = User.objects.filter(username__contains=value, full_name__contains=value, is_reporter=True, is_staff=False, is_superuser=False)
@@ -35,7 +36,7 @@ def list_reporter(request):
 
 def list_user(request):
     page = 'user'
-    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
         if 'search' in request.GET:
             value = request.GET['search']
             print(value)
@@ -75,7 +76,7 @@ def add_reporter(request):
 
 
 def detail(request, username, page):
-    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
         if page == 'user':
             try:
                 user = User.objects.get(username=username, is_reporter=False, is_staff=False, is_superuser=False)
@@ -105,7 +106,7 @@ def detail_reporter(request, username):
 
 
 def deactive_reactive(request, username, page, action):
-    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
         if page == 'user':
             try:
                 user = User.objects.get(username=username, is_reporter=False, is_staff=False, is_superuser=False)
@@ -135,7 +136,7 @@ def deactive_reactive(request, username, page, action):
 
 
 def deactive_confirm(request, username, page):
-    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
         if page == 'reporter' or page == 'user':
             pass
         else:
@@ -161,7 +162,7 @@ def deactive_confirm(request, username, page):
 
 
 def reactive_confirm(request, username, page):
-    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
         if page == 'reporter' or page == 'user':
             pass
         else:
@@ -184,3 +185,65 @@ def reactive_confirm(request, username, page):
         })
     else:
         return redirect('home:dont-have-access')
+
+
+def category_list(request):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        getCate = Category.objects.all().order_by('-id')
+        paginator = Paginator(getCate, 50)
+        pageNum = request.GET.get('page')
+        data = paginator.get_page(pageNum)
+        return render(request, 'staff/category-list.html', {
+            'data': data,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+
+def category_detail(request, id):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        try: 
+            getCategory = Category.objects.get(pk=id)
+        except:
+            return redirect('home:404')
+        return render(request, 'staff/detail-category.html', {
+            'data': getCategory,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+
+def delete_category_confirm(request, id):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        try:
+            getCategory = Category.objects.get(pk=id)
+        except:
+            return redirect('home:404')
+        return render(request, 'staff/delete-category-confirm.html', {
+            'data': getCategory,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+
+def delete_category(request, id):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        try:
+            getCategory = Category.objects.get(pk=id)
+        except:
+            return redirect('home:404')
+        getCategory.delete()
+        return redirect('staff:category-list')
+    else:
+        return redirect('home:dont-have-access')
+
+
+# def add_category(request):
+#     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+#         if request.method == 'POST':
+#             form = CategoryForm(request.POST, request.FILES)
+#             if form.is_valid():
+#                 form.save()
+#                 return 
+#     else:
+#         return redirect('home:dont-have-access')
