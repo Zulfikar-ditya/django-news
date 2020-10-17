@@ -17,7 +17,11 @@ def index(request):
 def list_reporter(request):
     page = 'reporter'
     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
-        reporter = User.objects.filter(is_reporter=True, is_staff=False, is_superuser=False).order_by('id')
+        if 'search' in request.GET:
+            value = request.GET['seacrh']
+            reporter = User.objects.filter(username__contains=value, full_name__contains=value)
+        else:
+            reporter = User.objects.filter(is_reporter=True, is_staff=False, is_superuser=False).order_by('id')
         paginator = Paginator(reporter, 100)
         pageNum = request.GET.get('page')
         data = paginator.get_page(pageNum)
@@ -30,9 +34,14 @@ def list_reporter(request):
 
 
 def list_user(request):
+    page = 'user'
     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
-        user = User.objects.filter(is_reporter=False, is_staff=False, is_superuser=False)
-        page = 'user'
+        if 'search' in request.GET:
+            value = request.GET['search']
+            print(value)
+            user = User.objects.filter(username__contains=value, full_name__contains=value)
+        else:
+            user = User.objects.filter(is_reporter=False, is_staff=False, is_superuser=False)
         paginator = Paginator(user, 100)
         pageNum = request.GET.get('page')
         data = paginator.get_page(pageNum)
