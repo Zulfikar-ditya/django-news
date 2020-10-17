@@ -25,13 +25,13 @@
     <div class="text-capitalize">
         {% if page == 'user' %}
         <p><i>are you sure want to deactivate user: {{user.username}}</i></p>
-        <a href="../deactive/{{action}}/user/{{user.username}}/" class="btn btn-outline-danger">
+        <a href="../../../deactive/{{action}}/user/{{user.username}}/" class="btn btn-outline-danger">
             Deactive
         </a>
         <a href="{% url "staff:list-user" %}" class="btn btn-outline-success">Cancel</a>
         {% else %}
         <p><i>are you sure want to deactivate reporter: {{user.username}}</i></p>
-        <a href="../deactive/reporter/{{user.username}}/" class="btn btn-outline-danger">
+        <a href="../../../deactive/reporter/{{user.username}}/" class="btn btn-outline-danger">
             Deactive
         </a>
         <a href="{% url 'staff:list-reporter' %}" class="btn btn-outline-success">Cancel</a>

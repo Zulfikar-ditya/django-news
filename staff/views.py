@@ -18,8 +18,8 @@ def list_reporter(request):
     page = 'reporter'
     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
         if 'search' in request.GET:
-            value = request.GET['seacrh']
-            reporter = User.objects.filter(username__contains=value, full_name__contains=value)
+            value = request.GET['search']
+            reporter = User.objects.filter(username__contains=value, full_name__contains=value, is_reporter=True, is_staff=False, is_superuser=False)
         else:
             reporter = User.objects.filter(is_reporter=True, is_staff=False, is_superuser=False).order_by('id')
         paginator = Paginator(reporter, 100)
@@ -39,7 +39,7 @@ def list_user(request):
         if 'search' in request.GET:
             value = request.GET['search']
             print(value)
-            user = User.objects.filter(username__contains=value, full_name__contains=value)
+            user = User.objects.filter(username__contains=value, full_name__contains=value, is_reporter=False, is_staff=False, is_superuser=False)
         else:
             user = User.objects.filter(is_reporter=False, is_staff=False, is_superuser=False)
         paginator = Paginator(user, 100)
@@ -54,7 +54,7 @@ def list_user(request):
 
 
 def add_reporter(request):
-    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True:
+    if request.user.is_authenticated and request.user.is_staff == True and request.user.is_superuser == False:
         if request.method == 'POST':
             form = AddReporterForm(request.POST, request.FILES)
             if form.is_valid():

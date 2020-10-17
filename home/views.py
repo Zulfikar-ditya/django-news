@@ -7,7 +7,7 @@ from .models import Blog, Category
 
 
 def index(request):
-    getData = Blog.objects.filter(status=True).order_by('date_add')
+    getData = Blog.objects.filter(status=True).order_by('-id')
     paginator = Paginator(getData, 20)
     pageNum = request.GET.get('page')
     data_result = paginator.get_page(pageNum)
@@ -21,9 +21,10 @@ def post_detail(request, id):
         getPost = Blog.objects.get(pk=id, status=True)
     except:
         return redirect('home:404')
+    getPost.viewer += 1
+    getPost.save()
     getPostCategory = getPost.categorie
     related_post = Blog.objects.filter(categorie=getPostCategory).order_by('date_add')[:2] # [:10] if post exist
-    # print(related_post)
     return render(request, 'home/post-detail.html', {
         'data': getPost,
         'post': related_post,
