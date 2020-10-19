@@ -47,8 +47,8 @@ def category_list(request):
 def post_filter(request, id):
     try:
         getCategory = Category.objects.get(pk=id)
-    except(KeyError, Category.DoesNotExist):
-        redirect('home:404')
+    except:
+        return redirect('home:404')
     getData = Blog.objects.filter(status=True, categorie=getCategory).order_by('date_add')
     postCount = len(getData)
     paginator = Paginator(getData, 20)
