@@ -241,12 +241,20 @@ def delete_category(request, id):
 '''
 
 
-# def add_category(request):
-#     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
-#         if request.method == 'POST':
-#             form = CategoryForm(request.POST, request.FILES)
-#             if form.is_valid():
-#                 form.save()
-#                 return 
-#     else:
-#         return redirect('home:dont-have-access')
+def add_category(request):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        if request.method == 'POST':
+            form = CategoryForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                if 'add' in request.POST:
+                    return redirect('staff:category-list')
+                else:
+                    return redirect('staff:add-category')
+        else:
+            form = CategoryForm()
+        return render(request, 'staff/add-category.html', {
+            'form': form,
+        })
+    else:
+        return redirect('home:dont-have-access')
