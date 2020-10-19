@@ -213,6 +213,8 @@ def category_detail(request, id):
         return redirect('home:dont-have-access')
 
 
+'''
+# if i delete a category, that make some post where have relation with category model disapear
 def delete_category_confirm(request, id):
     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
         try:
@@ -236,6 +238,7 @@ def delete_category(request, id):
         return redirect('staff:category-list')
     else:
         return redirect('home:dont-have-access')
+'''
 
 
 # def add_category(request):

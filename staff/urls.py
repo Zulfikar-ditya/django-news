@@ -17,6 +17,6 @@ urlpatterns = [
     path('reactive/<str:action>/<str:page>/<str:username>/', views.deactive_reactive, name='reactive-deactive'),
     path('category-list/', views.category_list, name='category-list'),
     path('category-list/<int:id>/', views.category_detail, name='category-detail'),
-    path('delete-category-confirm/<int:id>/', views.delete_category_confirm, name='delete-category-confirm'),
-    path('delete-category/<int:id>/', views.delete_category, name='delete-category'),
+    # path('delete-category-confirm/<int:id>/', views.delete_category_confirm, name='delete-category-confirm'),
+    # path('delete-category/<int:id>/', views.delete_category, name='delete-category'),
 ]
