@@ -20,4 +20,5 @@ urlpatterns = [
     # path('delete-category-confirm/<int:id>/', views.delete_category_confirm, name='delete-category-confirm'),
     # path('delete-category/<int:id>/', views.delete_category, name='delete-category'),
     path('add-category/', views.add_category, name="add-category"),
+    path('post-by-reporter/<str:username>/', views.post_by_reporter, name='post-by-reporter')
 ]

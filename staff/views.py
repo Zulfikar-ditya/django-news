@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 
 from accounts.models import User
-from home.models import Category
+from home.models import Category, Blog
 
 from .forms import AddReporterForm, CategoryForm
 
@@ -255,6 +255,24 @@ def add_category(request):
             form = CategoryForm()
         return render(request, 'staff/add-category.html', {
             'form': form,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+
+def post_by_reporter(request, username):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return redirect('home:404')
+        post = Blog.objects.filter(reporter=user.id, status=True).order_by('-id')
+        paginato = Paginator(post, 50)
+        pageNum = request.GET.get('page')
+        data = paginato.get_page(pageNum)
+        return render(request, 'staff/post-by-reporter.html', {
+            'user': user,
+            'data': data,
         })
     else:
         return redirect('home:dont-have-access')
