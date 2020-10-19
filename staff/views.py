@@ -189,7 +189,11 @@ def reactive_confirm(request, username, page):
 
 def category_list(request):
     if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
-        getCate = Category.objects.all().order_by('-id')
+        if 'search' in request.GET:
+            query = request.GET['search']
+            getCate = Category.objects.filter(name__contains=query)
+        else:
+            getCate = Category.objects.all().order_by('-id')
         paginator = Paginator(getCate, 50)
         pageNum = request.GET.get('page')
         data = paginator.get_page(pageNum)
