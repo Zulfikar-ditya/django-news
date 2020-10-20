@@ -66,8 +66,51 @@ class MyUserAdmin(UserAdmin):
             }
         )
     )
-    filter_horizontal = ()
     ordering = ('id',)
+    filter_horizontal = ()
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj)
+        is_superuser = request.user.is_superuser
+        disable_fields = set()
+        if not is_superuser:
+            disable_fields |= {
+                'username',
+                'email',
+                'full_name',
+                'phone',
+                'address',
+                'avatar',
+                'gender',
+                'date_of_birth',
+                'is_superuser',
+                'is_reporter',
+                'is_active',
+                'is_staff',
+            }
+            if (
+                not is_superuser
+                and obj is not None
+                and obj == request.user
+            ):
+                disable_fields |= {
+                'username',
+                'email',
+                'full_name',
+                'phone',
+                'address',
+                'avatar',
+                'gender',
+                'date_of_birth',
+                'is_superuser',
+                'is_reporter',
+                'is_active',
+                'is_staff',
+                }
+        for i in disable_fields:
+            if i in form.base_fields:
+                form.base_fields[i].disabled = True
+        return form
 
 
 admin.site.register(User, MyUserAdmin)
