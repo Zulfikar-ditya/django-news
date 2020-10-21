@@ -270,7 +270,7 @@ def post_by_reporter(request, username):
             user = User.objects.get(username=username)
         except:
             return redirect('home:404')
-        post = Blog.objects.filter(reporter=user.id, status=True).order_by('-id')
+        post = Blog.objects.filter(reporter=user.id,).order_by('-id')
         paginato = Paginator(post, 50)
         pageNum = request.GET.get('page')
         data = paginato.get_page(pageNum)
@@ -280,3 +280,50 @@ def post_by_reporter(request, username):
         })
     else:
         return redirect('home:dont-have-access')
+
+
+def deactive_reactive_confirm_post(request, post_id, username, action):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return redirect('home:404')
+        try:
+            post = Blog.objects.get(pk=post_id, reporter=user.id)
+        except:
+            return redirect('home:404')
+        if action == 'deactive' or action == 'reactive':
+            pass
+        else:
+            return redirect('home:404')
+        return render(request, 'staff/deactive-post-confirm.html', {
+            'data': post,
+            'user': user,
+            'action': action,
+        })
+    else:
+        return redirect('home:dont-have-access')
+
+ 
+def deactive_reactive_post(request, post_id, username, action):
+    if request.user.is_authenticated and request.user.is_staff == True or request.user.is_superuser == True and request.user.is_active == True:
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return redirect('home:404')
+        try:
+            post = Blog.objects.get(pk=post_id, reporter=user.id)
+        except:
+            return redirect('home:404')
+        else: pass
+        if action == 'deactive':
+            post.status = False
+        elif action == 'reactive':
+            post.status = True
+        else:
+            return redirect('home:404')
+        post.save()
+        return HttpResponseRedirect(f'../../../post-by-reporter/{user}/')
+    else:
+        return redirect('home:dont-have-access')
+

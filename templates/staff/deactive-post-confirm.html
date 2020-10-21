@@ -1,0 +1,27 @@
+{% extends 'base-staff.html' %}
+
+{% load static %}
+
+{% block title %}
+| Deactive Post - {{data.title}}
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5 text-capitalize">
+    <h3>Post: {{data.title}}</h3>
+    <h5>Reporter: {{user}}</h5>
+    <h5>Category: {{data.categorie}}</h5>
+    <div class="d-flex mt-5">
+        {% if action == 'deactive' %}
+        <a href="../../../post-by-reporter/{{user}}/" class="btn btn-outline-success">Cancel</a>
+        <a href="../../../deactive-post/{{user}}/{{data.id}}/" class="btn btn-outline-danger ml-5">Deactive</a>
+        {% else %}
+        <a href="../../../post-by-reporter/{{user}}/" class="btn btn-outline-danger">Cancel</a>
+        <a href="../../../reactive-post/{{user}}/{{data.id}}/" class="btn btn-outline-success ml-5">Reactive</a>
+        {% endif %}
+    </div>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
